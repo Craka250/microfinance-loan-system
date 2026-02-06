@@ -28,3 +28,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
+import SocketProvider from "./context/SocketContext";
+
+<BrowserRouter>
+  <AuthProvider>
+    <SocketProvider>
+      <App />
+      <Toaster position="top-right" />
+    </SocketProvider>
+  </AuthProvider>
+</BrowserRouter>

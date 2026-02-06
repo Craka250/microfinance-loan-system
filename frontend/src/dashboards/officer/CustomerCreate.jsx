@@ -3,15 +3,14 @@ import toast from "react-hot-toast";
 import PageWrapper from "../../components/layout/PageWrapper";
 import TextInput from "../../components/inputs/TextInput";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
-import SelectInput from "../../components/inputs/SelectInput";
-import { createLoan } from "../../services/loanService";
+import { createCustomer } from "../../services/customerService";
 
-export default function LoanCreate() {
+export default function CustomerCreate() {
   const [form, setForm] = useState({
-    customer_id: "",
-    amount: "",
-    interest_rate: "",
-    duration: "",
+    full_name: "",
+    national_id: "",
+    phone: "",
+    address: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -21,14 +20,9 @@ export default function LoanCreate() {
     setLoading(true);
 
     try {
-      await createLoan(form);
-      toast.success("Loan submitted for approval");
-      setForm({
-        customer_id: "",
-        amount: "",
-        interest_rate: "",
-        duration: "",
-      });
+      await createCustomer(form);
+      toast.success("Customer registered successfully");
+      setForm({ full_name: "", national_id: "", phone: "", address: "" });
     } finally {
       setLoading(false);
     }
@@ -37,7 +31,7 @@ export default function LoanCreate() {
   return (
     <PageWrapper>
       <h2 className="text-2xl font-bold mb-6">
-        Create Loan Application
+        Register New Customer
       </h2>
 
       <form
@@ -45,40 +39,39 @@ export default function LoanCreate() {
         className="bg-white p-6 rounded-xl shadow max-w-2xl"
       >
         <TextInput
-          label="Customer ID"
-          value={form.customer_id}
+          label="Full Name"
+          value={form.full_name}
           onChange={(e) =>
-            setForm({ ...form, customer_id: e.target.value })
+            setForm({ ...form, full_name: e.target.value })
           }
         />
 
         <TextInput
-          label="Loan Amount (KES)"
-          value={form.amount}
+          label="National ID"
+          value={form.national_id}
           onChange={(e) =>
-            setForm({ ...form, amount: e.target.value })
+            setForm({ ...form, national_id: e.target.value })
           }
         />
 
         <TextInput
-          label="Interest Rate (%)"
-          value={form.interest_rate}
+          label="Phone Number"
+          value={form.phone}
           onChange={(e) =>
-            setForm({ ...form, interest_rate: e.target.value })
+            setForm({ ...form, phone: e.target.value })
           }
         />
 
-        <SelectInput
-          label="Duration (Months)"
-          value={form.duration}
+        <TextInput
+          label="Physical Address"
+          value={form.address}
           onChange={(e) =>
-            setForm({ ...form, duration: e.target.value })
+            setForm({ ...form, address: e.target.value })
           }
-          options={[6, 12, 18, 24]}
         />
 
         <PrimaryButton loading={loading}>
-          Submit Loan
+          Save Customer
         </PrimaryButton>
       </form>
     </PageWrapper>

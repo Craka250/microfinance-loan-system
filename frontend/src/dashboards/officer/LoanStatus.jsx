@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import PageWrapper from "../../components/layout/PageWrapper";
-import { getLoans, approveLoan } from "../../services/loanService";
+import { getLoans } from "../../services/loanService";
 
-export default function LoanApproval() {
+export default function LoanStatus() {
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
@@ -15,16 +14,10 @@ export default function LoanApproval() {
     setLoans(res.data);
   };
 
-  const handleApprove = async (id) => {
-    await approveLoan(id);
-    toast.success("Loan approved successfully");
-    loadLoans();
-  };
-
   return (
     <PageWrapper>
       <h2 className="text-2xl font-bold mb-6">
-        Loan Approval Queue
+        Loan Status Tracking
       </h2>
 
       <div className="bg-white rounded-xl shadow overflow-x-auto">
@@ -33,9 +26,8 @@ export default function LoanApproval() {
             <tr>
               <th className="p-3 text-left">Customer</th>
               <th className="p-3 text-left">Amount</th>
-              <th className="p-3 text-left">Duration</th>
+              <th className="p-3 text-left">Balance</th>
               <th className="p-3 text-left">Status</th>
-              <th className="p-3 text-left">Action</th>
             </tr>
           </thead>
 
@@ -44,18 +36,8 @@ export default function LoanApproval() {
               <tr key={loan.id} className="border-t">
                 <td className="p-3">{loan.customer_name}</td>
                 <td className="p-3">KES {loan.amount}</td>
-                <td className="p-3">{loan.duration} months</td>
+                <td className="p-3">KES {loan.balance}</td>
                 <td className="p-3">{loan.status}</td>
-                <td className="p-3">
-                  {loan.status === "PENDING" && (
-                    <button
-                      onClick={() => handleApprove(loan.id)}
-                      className="bg-green-600 text-white px-3 py-1 rounded"
-                    >
-                      Approve
-                    </button>
-                  )}
-                </td>
               </tr>
             ))}
           </tbody>

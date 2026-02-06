@@ -8,3 +8,14 @@ export default function AdminDashboard() {
     </>
   );
 }
+
+import PageWrapper from "../../components/layout/PageWrapper";
+
+export default function AdminDashboard() {
+  return (
+    <PageWrapper>
+      <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
+      <p>System overview, metrics, analytics...</p>
+    </PageWrapper>
+  );
+}

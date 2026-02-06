@@ -1,7 +1,23 @@
-export default function Navbar({ title }) {
+import useAuth from "../../hooks/useAuth";
+
+export default function Navbar() {
+  const { user, logout } = useAuth();
+
   return (
-    <div className="bg-white shadow px-6 py-4">
-      <h1 className="text-lg font-semibold">{title}</h1>
-    </div>
+    <header className="h-16 bg-white shadow flex items-center justify-between px-6">
+      <h1 className="font-semibold text-lg capitalize">
+        {user?.role} Dashboard
+      </h1>
+
+      <div className="flex items-center gap-4">
+        <span className="text-gray-600">{user?.name}</span>
+        <button
+          onClick={logout}
+          className="bg-red-600 text-white px-3 py-1 rounded"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
   );
 }

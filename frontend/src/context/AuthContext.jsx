@@ -1,57 +1,47 @@
-import { createContext, useState, useEffect } from "react";
-import { getProfile } from "../services/authService";
+import { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProfile()
-      .then((res) => setUser(res.data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+    try {
+      const storedUser = localStorage.getItem("mf_user");
+      const storedToken = localStorage.getItem("mf_token");
+
+      if (storedUser && storedToken) {
+        setUser(JSON.parse(storedUser));
+        setToken(storedToken);
+      }
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
-export const AuthContext = createContext();
-
-export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
-
-  const login = (user, token) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", token);
-    setUser(user);
-
-    navigate(`/${user.role}`);
+  const login = (userData, tokenData) => {
+    localStorage.setItem("mf_user", JSON.stringify(userData));
+    localStorage.setItem("mf_token", tokenData);
+    setUser(userData);
+    setToken(tokenData);
   };
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("mf_user");
+    localStorage.removeItem("mf_token");
     setUser(null);
-    navigate("/");
+    setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
-}
+};
+
+export default AuthContext;

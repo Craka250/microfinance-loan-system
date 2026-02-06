@@ -8,9 +8,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function LineChart({ data, dataKey, title }) {
+export default function LineChart({ data = [], dataKey, title }) {
   return (
-    <div className="bg-white p-5 rounded-xl shadow-sm border">
+    <div className="bg-white p-5 rounded-xl shadow border">
       <h3 className="font-semibold mb-4">{title}</h3>
 
       <ResponsiveContainer width="100%" height={280}>

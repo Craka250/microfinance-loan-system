@@ -1,19 +1,3 @@
-export default function CustomerList() {
-  return <div className="p-6">Customer List</div>;
-}
-
-import PageWrapper from "../../components/layout/PageWrapper";
-
-export default function CustomerList() {
-  return (
-    <PageWrapper>
-      <h2 className="text-2xl font-bold mb-4">Customers</h2>
-      <p>Customer records appear here...</p>
-    </PageWrapper>
-  );
-}
-
-
 import { useEffect, useState } from "react";
 import PageWrapper from "../../components/layout/PageWrapper";
 import { getCustomers } from "../../services/customerService";
@@ -23,13 +7,25 @@ export default function CustomerList() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    loadCustomers();
-  }, []);
+    let mounted = true;
 
-  const loadCustomers = async () => {
-    const res = await getCustomers();
-    setCustomers(res.data);
-  };
+    const loadCustomers = async () => {
+      try {
+        const res = await getCustomers();
+        if (mounted) {
+          setCustomers(res.data);
+        }
+      } catch (error) {
+        console.error("Failed to load customers:", error);
+      }
+    };
+
+    loadCustomers();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const filtered = customers.filter((c) =>
     c.full_name.toLowerCase().includes(search.toLowerCase())

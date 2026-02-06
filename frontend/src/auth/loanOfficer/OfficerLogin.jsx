@@ -1,25 +1,44 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import TextInput from "../../components/inputs/TextInput";
 import PasswordInput from "../../components/inputs/PasswordInput";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
-import useForm from "../../hooks/useForm";
+import { login as loginApi } from "../../services/authService";
+import useAuth from "../../hooks/useAuth";
 
 export default function OfficerLogin() {
-  const { values, handleChange } = useForm({ email: "", password: "" });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+    setLoading(true);
+
+    try {
+      const res = await loginApi("/officer/login", form);
+      login(res.data.user, res.data.token);
+      toast.success("Welcome Loan Officer");
+      navigate("/officer/dashboard");
+    } catch {
+      toast.error("Invalid credentials");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow w-96">
-        <h2 className="text-2xl font-bold mb-4">Loan Officer Login</h2>
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Loan Officer Login</h2>
 
-        <TextInput name="email" placeholder="Email" value={values.email} onChange={handleChange} />
-        <PasswordInput name="password" placeholder="Password" value={values.password} onChange={handleChange} />
+        <TextInput label="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+        <PasswordInput label="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
 
-        <PrimaryButton text="Login" />
+        <PrimaryButton loading={loading}>Login</PrimaryButton>
       </form>
     </div>
   );

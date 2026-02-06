@@ -3,12 +3,12 @@ import Navbar from "./Navbar";
 
 export default function PageWrapper({ children }) {
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
-      <div className="flex-1 min-h-screen bg-gray-100">
+      <div className="flex-1 flex flex-col">
         <Navbar />
-        <main className="p-6">{children}</main>
+        <main className="flex-1 p-6">{children}</main>
       </div>
     </div>
   );

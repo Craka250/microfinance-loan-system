@@ -17,6 +17,8 @@ export default function MpesaPayment() {
 
     await api.post("/payments/mpesa", form);
     toast.success("STK push sent to customer");
+
+    setForm({ phone: "", amount: "", loan_id: "" });
   };
 
   return (
@@ -25,10 +27,33 @@ export default function MpesaPayment() {
         M-Pesa Payment
       </h2>
 
-      <form className="bg-white p-6 rounded-xl shadow max-w-xl">
-        <TextInput label="Phone Number" />
-        <TextInput label="Amount" />
-        <TextInput label="Loan ID" />
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-xl shadow max-w-xl"
+      >
+        <TextInput
+          label="Phone Number"
+          value={form.phone}
+          onChange={(e) =>
+            setForm({ ...form, phone: e.target.value })
+          }
+        />
+
+        <TextInput
+          label="Amount"
+          value={form.amount}
+          onChange={(e) =>
+            setForm({ ...form, amount: e.target.value })
+          }
+        />
+
+        <TextInput
+          label="Loan ID"
+          value={form.loan_id}
+          onChange={(e) =>
+            setForm({ ...form, loan_id: e.target.value })
+          }
+        />
 
         <PrimaryButton>Send STK Push</PrimaryButton>
       </form>

@@ -65,3 +65,61 @@ onChange={(e) => setForm({ ...form, password: e.target.value })}
 </div>
 );
 }
+
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { login as loginApi } from "../../services/authService";
+import useAuth from "../../hooks/useAuth";
+import TextInput from "../../components/inputs/TextInput";
+import PasswordInput from "../../components/inputs/PasswordInput";
+import PrimaryButton from "../../components/buttons/PrimaryButton";
+
+export default function AdminLogin() {
+  const { login } = useAuth();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await loginApi(form);
+      toast.success("Login successful");
+      login(res.data.user, res.data.token);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+
+        <TextInput
+          label="Email"
+          value={form.email}
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
+        />
+
+        <PasswordInput
+          label="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+        />
+
+        <PrimaryButton loading={loading}>
+          Login
+        </PrimaryButton>
+      </form>
+    </div>
+  );
+}

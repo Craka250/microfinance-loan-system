@@ -24,3 +24,20 @@ export const SIDEBAR_LINKS = {
     { label: "Defaulters", path: "/finance/defaulters" },
   ],
 };
+
+export const DASHBOARD_STATS = {
+  totalCustomers: 1240,
+  activeLoans: 418,
+  totalDisbursed: 18500000,
+  totalCollected: 12360000,
+  defaultRate: "6.2%",
+};
+
+export const LOAN_CHART_DATA = [
+  { name: "Jan", loans: 120 },
+  { name: "Feb", loans: 210 },
+  { name: "Mar", loans: 300 },
+  { name: "Apr", loans: 260 },
+  { name: "May", loans: 340 },
+  { name: "Jun", loans: 380 },
+];

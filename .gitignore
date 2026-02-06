@@ -1,0 +1,108 @@
+# ===============================
+# Environment Variables
+# ===============================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ===============================
+# Node.js
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===============================
+# Build Outputs
+# ===============================
+dist/
+build/
+out/
+
+# ===============================
+# Vite
+# ===============================
+.vite/
+
+# ===============================
+# Tailwind / PostCSS
+# ===============================
+.cache/
+.postcss-cache/
+
+# ===============================
+# Backend (Express)
+# ===============================
+coverage/
+logs/
+*.log
+
+# ===============================
+# Database
+# ===============================
+*.sqlite
+*.db
+*.dump
+*.sql
+postgres-data/
+pgdata/
+
+# ===============================
+# Testing
+# ===============================
+jest.config.js.snap
+cypress/videos/
+cypress/screenshots/
+
+# ===============================
+# OS Files
+# ===============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
+# Editor / IDE
+# ===============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===============================
+# Docker
+# ===============================
+docker-data/
+.dockerignore
+
+# ===============================
+# Temporary & Misc
+# ===============================
+tmp/
+temp/
+*.bak
+*.old
+
+# ===============================
+# Certificates / Keys
+# ===============================
+*.pem
+*.key
+*.crt
+
+# ===============================
+# Firebase / Cloud
+# ===============================
+.firebase/
+.vercel/
+.netlify/
+
+# ===============================
+# Logs from PM2 / Nodemon
+# ===============================
+pm2.log
+nodemon.log

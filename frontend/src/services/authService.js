@@ -1,21 +1,29 @@
 import api from "./api";
 
-export const login = (endpoint, data) =>
-  api.post(endpoint, data);
+export const login = (endpoint, data) => {
+  return api.post(endpoint, data);
+};
 
-export const logout = () =>
-  api.post("/auth/logout");
+export const register = (endpoint, data) => {
+  return api.post(endpoint, data);
+};
 
-export const getProfile = () =>
-  api.get("/auth/profile");
+export const logout = () => {
+  return api.post("/auth/logout");
+};
 
-import api from "./api";
+export const getProfile = () => {
+  return api.get("/auth/profile");
+};
 
-export const login = (data) => api.post("/auth/login", data);
-export const register = (data) => api.post("/auth/register", data);
-export const requestReset = (email) =>
-  api.post("/auth/reset-request", { email });
-export const verifyReset = (payload) =>
-  api.post("/auth/reset-verify", payload);
-export const resetPassword = (payload) =>
-  api.post("/auth/reset-password", payload);
+export const requestReset = (endpoint, email) => {
+  return api.post(endpoint, { email });
+};
+
+export const verifyReset = (endpoint, payload) => {
+  return api.post(endpoint, payload);
+};
+
+export const resetPassword = (endpoint, payload) => {
+  return api.post(endpoint, payload);
+};

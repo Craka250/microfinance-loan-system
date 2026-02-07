@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Auth
 import AdminLogin from "../auth/admin/AdminLogin";
@@ -17,7 +17,7 @@ import AdminDashboard from "../dashboards/admin/AdminDashboard";
 import FinanceDashboard from "../dashboards/finance/Collections";
 import OfficerDashboard from "../dashboards/officer/CustomerList";
 
-// Routing Guards
+// Guards
 import ProtectedRoute from "../routes/ProtectedRoute";
 import RoleRoute from "../routes/RoleRoute";
 
@@ -26,63 +26,65 @@ import Unauthorized from "../pages/Unauthorized";
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <Routes>
 
-        {/* Default */}
-        <Route path="/" element={<AdminLogin />} />
+      {/* Default */}
+      <Route path="/" element={<Navigate to="/admin/login" replace />} />
 
-        {/* Admin Auth */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/register" element={<AdminRegister />} />
-        <Route path="/admin/reset-password" element={<AdminResetPassword />} />
+      {/* Admin Auth */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/register" element={<AdminRegister />} />
+      <Route path="/admin/reset-password" element={<AdminResetPassword />} />
 
-        {/* Finance Auth */}
-        <Route path="/finance/login" element={<FinanceLogin />} />
-        <Route path="/finance/register" element={<FinanceRegister />} />
+      {/* Finance Auth */}
+      <Route path="/finance/login" element={<FinanceLogin />} />
+      <Route path="/finance/register" element={<FinanceRegister />} />
 
-        {/* Officer Auth */}
-        <Route path="/officer/login" element={<OfficerLogin />} />
-        <Route path="/officer/register" element={<OfficerRegister />} />
-        <Route path="/officer/reset-password" element={<OfficerResetPassword />} />
+      {/* Officer Auth */}
+      <Route path="/officer/login" element={<OfficerLogin />} />
+      <Route path="/officer/register" element={<OfficerRegister />} />
+      <Route path="/officer/reset-password" element={<OfficerResetPassword />} />
 
-        {/* Protected Dashboards */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute>
-              <RoleRoute allowedRoles={["admin"]}>
-                <AdminDashboard />
-              </RoleRoute>
-            </ProtectedRoute>
-          }
-        />
+      {/* Admin Dashboard */}
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute>
+            <RoleRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </RoleRoute>
+          </ProtectedRoute>
+        }
+      />
 
-        <Route
-          path="/finance/dashboard"
-          element={
-            <ProtectedRoute>
-              <RoleRoute allowedRoles={["finance"]}>
-                <FinanceDashboard />
-              </RoleRoute>
-            </ProtectedRoute>
-          }
-        />
+      {/* Finance Dashboard */}
+      <Route
+        path="/finance/dashboard"
+        element={
+          <ProtectedRoute>
+            <RoleRoute allowedRoles={["finance"]}>
+              <FinanceDashboard />
+            </RoleRoute>
+          </ProtectedRoute>
+        }
+      />
 
-        <Route
-          path="/officer/dashboard"
-          element={
-            <ProtectedRoute>
-              <RoleRoute allowedRoles={["officer"]}>
-                <OfficerDashboard />
-              </RoleRoute>
-            </ProtectedRoute>
-          }
-        />
+      {/* Officer Dashboard */}
+      <Route
+        path="/officer/dashboard"
+        element={
+          <ProtectedRoute>
+            <RoleRoute allowedRoles={["officer"]}>
+              <OfficerDashboard />
+            </RoleRoute>
+          </ProtectedRoute>
+        }
+      />
 
-        <Route path="/unauthorized" element={<Unauthorized />} />
+      {/* System Pages */}
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="*" element={<Navigate to="/admin/login" replace />} />
 
-      </Routes>
-    </BrowserRouter>
+    </Routes>
   );
 }

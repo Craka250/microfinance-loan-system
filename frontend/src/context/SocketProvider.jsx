@@ -1,8 +1,7 @@
-import { createContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
-
-export const SocketContext = createContext(null);
+import { SocketContext } from "./SocketContext";
 
 export default function SocketProvider({ children }) {
   const socketRef = useRef(null);
@@ -38,9 +37,7 @@ export default function SocketProvider({ children }) {
       console.log("🔌 Socket disconnected");
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    return () => socket.disconnect();
   }, []);
 
   return (

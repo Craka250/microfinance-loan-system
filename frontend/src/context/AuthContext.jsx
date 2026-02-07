@@ -8,25 +8,21 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initAuth = () => {
-      try {
-        const storedUser = localStorage.getItem("mf_user");
-        const storedToken = localStorage.getItem("mf_token");
+    try {
+      const storedUser = localStorage.getItem("mf_user");
+      const storedToken = localStorage.getItem("mf_token");
 
-        if (storedUser && storedToken) {
-          setUser(JSON.parse(storedUser));
-          setToken(storedToken);
-        }
-      } catch (err) {
-        console.error("Auth init error:", err);
-        localStorage.removeItem("mf_user");
-        localStorage.removeItem("mf_token");
-      } finally {
-        setLoading(false);
+      if (storedUser && storedToken) {
+        setUser(JSON.parse(storedUser));
+        setToken(storedToken);
       }
-    };
-
-    initAuth();
+    } catch (err) {
+      console.error("Auth init error:", err);
+      localStorage.removeItem("mf_user");
+      localStorage.removeItem("mf_token");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const login = useCallback((userData, tokenData) => {
@@ -46,9 +42,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, token, login, logout, loading }}
-    >
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

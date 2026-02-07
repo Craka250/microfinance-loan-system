@@ -1,17 +1,21 @@
 import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
-import { SocketContext } from "./SocketContextCreator";
+import { SocketContext } from "./SocketContextDefinition";
 
 export default function SocketProvider({ children }) {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io(
-      import.meta.env.VITE_SOCKET_URL || "http://localhost:5000"
+    const socket = io(
+      import.meta.env.VITE_SOCKET_URL || "http://localhost:5000",
+      {
+        transports: ["websocket"],
+        withCredentials: true,
+      }
     );
 
-    const socket = socketRef.current;
+    socketRef.current = socket;
 
     socket.on("connect", () => {
       console.log("🔌 Socket connected:", socket.id);
@@ -39,7 +43,7 @@ export default function SocketProvider({ children }) {
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socketRef }}>
+    <SocketContext.Provider value={socketRef}>
       {children}
     </SocketContext.Provider>
   );

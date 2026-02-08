@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
-import SocketProvider from "./context/SocketContext";
+import SocketProvider from "./context/SocketProvider";
 import App from "./app/App";
 import "./styles/index.css";
 

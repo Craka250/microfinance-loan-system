@@ -12,7 +12,6 @@ export default function SocketProvider({ children }) {
       {
         transports: ["websocket"],
         withCredentials: true,
-        autoConnect: true,
       }
     );
 
@@ -38,9 +37,7 @@ export default function SocketProvider({ children }) {
       console.log("🔌 Socket disconnected");
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    return () => socket.disconnect();
   }, []);
 
   return (
